@@ -26,6 +26,14 @@ DB = ROOT / "data" / "project.db"
 
 def clean_data(df):
     """Fix the problems you found in notebook 01."""
+
+    ## Make a list of all the columns that need to be dropped from the raw dataset
+    num_cols_drop = ["Attention_Weight", "Embedding_Similarity_Score", "Q_Value_Score",
+        "Reward_Score", "Candidate_Rank", "Retrieval_Latency_ms",
+        "Ranking_Stability_Score", "Current_Ranking_Position",
+        "User_Node_Degree", "Item_Node_Degree", "Common_Neighbor_Count",
+        "Distance_Score", "Candidate_Recall_Score", "User_Item_Affinity_Score"]
+    df = df.drop(columns= num_cols_drop)
     pass
 
 
