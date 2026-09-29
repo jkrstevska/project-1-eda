@@ -17,6 +17,10 @@ to implement.
 """
 
 from pathlib import Path
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import chi2_contingency
+from scipy.stats.contingency import association
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
@@ -45,3 +49,16 @@ def make_lookup(df, column):
 def run_query(sql, db_path=DB):
     """Run a query against the database and return the result as a DataFrame."""
     pass
+
+def label_cramers_v(v):
+    if v < 0.1:
+        return "Very weak"
+    elif v < 0.2:
+        return "Weak"
+    elif v < 0.3:
+        return "Moderate"
+    elif v < 0.5:
+        return "Strong"
+    else:
+        return "Very strong"
+    # print(f"Cramer's V = {v:.3f}: {label} association")
