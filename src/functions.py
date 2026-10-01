@@ -33,7 +33,8 @@ DB = ROOT / "data" / "project.db"
 
 def clean_data(drop_col, df):
     """
-        Add Explanation
+        Drop one or more unwanted columns from a DataFrame and report
+        the column count before and after, so the removal can be verified.
     """
 
     print(f"Columns before: {df.shape[1]}")
@@ -46,8 +47,11 @@ def clean_data(drop_col, df):
 
 def make_lookup(df, col, id_name):
     """
-        Add Explanation
+        Build a lookup table for a categorical column: take its unique values,
+        assign each one a sequential integer ID, and return the result as a
+        two-column DataFrame (id, label) ready to become a dimension table.
     """
+
     labels = sorted(df[col].unique())
     return pd.DataFrame(
         {
@@ -59,7 +63,10 @@ def make_lookup(df, col, id_name):
 
 
 def run_query(sql, db_path=DB):
-    """Run a query against the database and return the result as a DataFrame."""
+    """
+        Run a query against the database and return the result as a DataFrame.
+    """
+
     conn = sqlite3.connect(db_path)
     result = pd.read_sql(sql, conn)
     conn.close()
@@ -68,12 +75,16 @@ def run_query(sql, db_path=DB):
 
 def analyze_categorical_vs_purchase(df, col, target='Purchase_Flag'):
     """
-    Docstring for analyze_categorical_vs_purchase
-    
-    :param df: Description
-    :param col: Description
-    :param target: Description
+        Test the relationship between a categorical column and a categorical (binary) target variable
+        by building a crosstab, visualizing it as a bar chart, running a
+        chi-square test for statistical significance, and computing Cramer's V
+        to measure the strength of the association.
+
+        :param df: DataFrame containing the columns to analyze
+        :param col: Categorical column to test against the target variable
+        :param target: Binary outcome column to test association with (default: 'Purchase_Flag')
     """
+
     prop = pd.crosstab(df[col], df[target], normalize=True).round(2)
     display(prop)
 
@@ -109,7 +120,15 @@ def analyze_categorical_vs_purchase(df, col, target='Purchase_Flag'):
     print(f"Cramer's V = {cramers_v:.3f}: {label} association")
     print("\n")
 
-def analyze_numerical(df):   
+def analyze_numerical(df):
+    """
+        Summarize one or more numerical columns: report measures of centrality
+        (mean, median, mode) and measures of dispersion (variance, standard
+        deviation, range, interquartile range).
+
+        :param df: DataFrame or Series of numerical values to summarize
+    """   
+    
     mean_df = df.mean().round(2)
     median_df = df.median().round(2)
     mode_df = df.mode().iloc[0].round(2)
