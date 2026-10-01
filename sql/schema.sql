@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS traffic_sources(
 -- foreign key pointing at each lookup table above. Created and loaded LAST,
 -- because every key it carries has to already exist somewhere else.
 
-CREATE TABLE IF NOT EXISTS interations(
-    interation_id INTEGER PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS interactions(
+    interaction_id INTEGER PRIMARY KEY,
     user_id TEXT NOT NULL,
     item_id TEXT NOT NULL,
     session_id TEXT NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS interations(
     stock_availability_score REAL,
 
     device_id INTEGER,
-    traffic_source_id INTEGER,
+    traffic_id INTEGER,
     time_of_day TEXT,
     day_type TEXT,
  
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS interations(
     FOREIGN KEY (category_id)        REFERENCES item_categories(category_id),
     FOREIGN KEY (brand_tier_id)      REFERENCES brand_tiers(brand_tier_id),
     FOREIGN KEY (device_id)          REFERENCES device_types(device_id),
-    FOREIGN KEY (traffic_source_id)  REFERENCES traffic_sources(traffic_source_id)
+    FOREIGN KEY (traffic_id)         REFERENCES traffic_sources(traffic_id)
 );
 
 
